@@ -4997,7 +4997,7 @@ boolean L13_towerNSContests()
 		}
 		if(toCompete == $location[none])
 		{
-			abort("nsChallenge1 is invalid. This is a severe error.");
+			abort("nsChallenge2 is invalid. This is a severe error.");
 		}
 		ccAdv(1, toCompete);
 		return true;
