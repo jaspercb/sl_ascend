@@ -47,6 +47,7 @@ import <sl_ascend/sl_digimon.ash>
 import <sl_ascend/sl_majora.ash>
 import <sl_ascend/sl_glover.ash>
 import <sl_ascend/sl_batpath.ash>
+import <sl_ascend/sl_tcrs.ash>
 import <sl_ascend/sl_monsterparts.ash>
 import <sl_ascend/sl_theSource.ash>
 import <sl_ascend/sl_optionals.ash>
