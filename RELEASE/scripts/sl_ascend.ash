@@ -1190,6 +1190,10 @@ boolean warAdventure()
 
 boolean doThemtharHills()
 {
+	if(in_tcrs())
+	{
+		return false;
+	}
 	if(get_property("sl_nuns") == "done")
 	{
 		return false;
@@ -7740,6 +7744,10 @@ boolean L12_sonofaPrefix()
 boolean L12_filthworms()
 {
 	if(my_level() < 12)
+	{
+		return false;
+	}
+	if(in_tcrs())
 	{
 		return false;
 	}
