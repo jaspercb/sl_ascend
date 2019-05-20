@@ -2155,7 +2155,7 @@ boolean cloverUsageInit()
 			use(1, $item[Disassembled Clover]);
 		}
 	}
-	if(item_amount($item[Ten-Leaf Clover]) > 0)
+	if(item_amount($item[Ten-Leaf Clover]) > 0 || in_tcrs())
 	{
 		return true;
 	}

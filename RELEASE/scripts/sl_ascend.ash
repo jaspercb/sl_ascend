@@ -2174,7 +2174,7 @@ boolean dailyEvents()
 	while(sl_doPrecinct());
 	handleBarrelFullOfBarrels(true);
 
-	kgb_getMartini();
+	kgb_getMartini("", true);
 	fightClubNap();
 	fightClubStats();
 
@@ -6192,6 +6192,10 @@ boolean L11_unlockHiddenCity()
 		useStoneWool = false;
 		backupSetting("choiceAdventure581", 1);
 		backupSetting("choiceAdventure579", 3);
+	}
+	if(in_tcrs())
+	{
+		useStoneWool = false;
 	}
 
 	print("Searching for the Hidden City", "blue");
@@ -10436,12 +10440,14 @@ boolean LX_craftAcquireItems()
 	if(item_amount($item[Metal Meteoroid]) > 0)
 	{
 		item it = $item[Meteorthopedic Shoes];
+		/*
 		if(!possessEquipment(it))
 		{
 			int choice = 1 + to_int(it) - to_int($item[Meteortarboard]);
 			string temp = visit_url("inv_use.php?pwd=&which=3&whichitem=9516");
 			temp = visit_url("choice.php?pwd=&whichchoice=1264&option=" + choice);
 		}
+		*/
 
 		it = $item[Meteortarboard];
 		if(!possessEquipment(it) && (get_power(equipped_item($slot[Hat])) < 140) && (get_property("sl_beatenUpCount").to_int() >= 5))
@@ -11248,7 +11254,7 @@ boolean L2_spookySapling()
 			set_property("sl_spookysapling", "finished");
 			use(1, $item[Spooky Temple Map]);
 		}
-		else
+		else if (!in_tcrs())
 		{
 			abort("Supposedly bought a spooky sapling, but failed :( (Did the semi-rare window just expire, just run me again, sorry)");
 		}
@@ -14179,6 +14185,8 @@ boolean doTasks()
 		print("Delay between adventures... beep boop... ", "blue");
 		wait(delay);
 	}
+	cli_execute("refresh quests");
+	cli_execute("refresh inv");
 
 	int paranoia = get_property("sl_paranoia").to_int();
 	if(paranoia != -1)

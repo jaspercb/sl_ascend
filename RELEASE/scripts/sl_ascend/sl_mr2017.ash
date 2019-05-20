@@ -891,7 +891,7 @@ boolean kgb_getMartini(string page, boolean dontCare)
 				continue;
 			}
 		}
-		if((have == item_amount($item[Splendid Martini])) && !dontCare)
+		if((have == item_amount($item[Splendid Martini])) && !dontCare && !in_tcrs())
 		{
 			abort("Failed to get a splendid martini and we cared about it");
 		}
