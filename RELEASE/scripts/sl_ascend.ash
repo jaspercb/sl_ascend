@@ -6608,6 +6608,7 @@ boolean L11_mauriceSpookyraven()
 		}
 		return true;
 	}
+	cli_execute("refresh inv");
 	if(item_amount($item[recipe: mortar-dissolving solution]) == 0)
 	{
 		if(possessEquipment($item[Lord Spookyraven\'s Spectacles]))
@@ -6615,6 +6616,7 @@ boolean L11_mauriceSpookyraven()
 			equip($slot[acc3], $item[Lord Spookyraven\'s Spectacles]);
 		}
 		visit_url("place.php?whichplace=manor4&action=manor4_chamberwall");
+		cli_execute("refresh inv");
 		use(1, $item[recipe: mortar-dissolving solution]);
 
 		if(item_amount($item[Numberwang]) > 0)
@@ -6748,7 +6750,13 @@ boolean L11_mauriceSpookyraven()
 
 	if(get_property("spookyravenRecipeUsed") != "with_glasses")
 	{
-		abort("Did not read Mortar Recipe with the Spookyraven glasses. We can't proceed.");
+		print("Did something go wrong reading the spookyraven recipe?", "red");
+		cli_execute("equip lord spookyraven's spectacles");
+		cli_execute("use mortar recipe");
+		if(get_property("spookyravenRecipeUsed") != "with_glasses")
+		{
+			abort("Did not read Mortar Recipe with the Spookyraven glasses. We can't proceed.");
+		}
 	}
 
 	if(possessEquipment($item[Unstable Fulminate]))
@@ -7107,6 +7115,7 @@ boolean L11_unlockPyramid()
 				slCraft("combine", 1, $item[headpiece of the staff of ed], $item[[2268]Staff Of Fats]);
 			}
 		}
+		cli_execute("refresh inv");
 		if(item_amount($item[[2325]Staff Of Ed]) == 0)
 		{
 			abort("Failed making Staff of Ed (2325) via CLI. Please do it manually and rerun.");
@@ -7387,6 +7396,9 @@ boolean L12_gremlins()
 
 	#Put a different shield in here.
 	print("Doing them gremlins", "blue");
+	if(0 < have_effect($effect[Curse of the Black Pearl Onion])) {
+		uneffect($effect[Curse of the Black Pearl Onion]);
+	}
 	if(item_amount($item[Ouija Board\, Ouija Board]) > 0)
 	{
 		equip($item[Ouija Board\, Ouija Board]);
@@ -14204,6 +14216,7 @@ boolean doTasks()
 			set_property("sl_paranoia_counter", paranoia_counter + 1);
 		}
 	}
+	cli_execute("refresh inv");
 	if(get_property("sl_helpMeMafiaIsSuperBrokenAaah").to_boolean())
 	{
 		cli_execute("refresh inv");

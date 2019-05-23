@@ -4314,6 +4314,7 @@ boolean buyUpTo(int num, item it, int maxprice)
 	}
 
 	int orig = num;
+	cli_execute("refresh inv");
 	num = num - item_amount(it);
 	if(num > 0)
 	{
