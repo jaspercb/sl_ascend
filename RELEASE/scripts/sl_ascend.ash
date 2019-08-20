@@ -1834,6 +1834,10 @@ int handlePulls(int day)
 
 boolean doVacation()
 {
+	if(in_koe())
+	{
+		return false;
+	}
 	if(my_primestat() == $stat[Muscle])
 	{
 		set_property("choiceAdventure793", "1");
@@ -4213,7 +4217,13 @@ boolean L13_towerNSNagamar()
 		{
 			pullXWhenHaveY($item[Disassembled Clover], 1, 0);
 		}
-		if(cloversAvailable() > 0)
+		if(in_hardcore() && in_koe())
+		{
+			// TODO: Improve support
+			abort("In Kingdom of Exploathing: Please buy a Wand of Nagamar from the bazaar and re-run.");
+			return false;
+		}
+		else if(cloversAvailable() > 0)
 		{
 			cloverUsageInit();
 			slAdvBypass(322, $location[The Castle in the Clouds in the Sky (Basement)]);
@@ -8492,7 +8502,8 @@ boolean L10_topFloor()
 	}
 
 	print("Castle Top Floor", "blue");
-	set_property("choiceAdventure677", 1);
+	set_property("choiceAdventure677", 1); // Copper Feel: submit model airship
+	set_property("choiceAdventure680", 1); // Mercy adventure: Are you a Man or a Mouse?
 	if(item_amount($item[Drum \'n\' Bass \'n\' Drum \'n\' Bass Record]) > 0)
 	{
 		set_property("choiceAdventure675", 2);
@@ -8722,7 +8733,7 @@ boolean L10_basement()
 			pullXWhenHaveY($item[Amulet of Extreme Plot Significance], 1, 0);
 			if(!possessEquipment($item[Amulet of Extreme Plot Significance]))
 			{
-				if($location[The Penultimate Fantasy Airship].turns_spent >= 45)
+				if($location[The Penultimate Fantasy Airship].turns_spent >= 45 || in_koe())
 				{
 					print("Well, we don't seem to be able to find an Amulet...", "red");
 					print("I suppose we will get the Massive Dumbbell... Beefcake!", "red");
@@ -8775,6 +8786,11 @@ boolean L10_airship()
 	}
 	if(get_property("sl_airship") != "")
 	{
+		return false;
+	}
+	if(in_koe())
+	{
+		set_property("sl_airship", "finished");
 		return false;
 	}
 
@@ -9169,6 +9185,8 @@ boolean L0_handleRainDoh()
 
 boolean LX_ornateDowsingRod()
 {
+	if (in_koe()) return false;
+
 	if(!get_property("sl_grimstoneOrnateDowsingRod").to_boolean())
 	{
 		return false;
@@ -10840,6 +10858,12 @@ boolean LX_bitchinMeatcar()
 	{
 		return false;
 	}
+	if(in_koe())
+	{
+		print("The desert exploded, so no need to build a meatcar...");
+		set_property("lastDesertUnlock", my_ascensions());
+		return false;
+	}
 
 	int meatRequired = 100;
 	if(item_amount($item[Meat Stack]) > 0)
@@ -11631,6 +11655,8 @@ boolean LX_handleSpookyravenFirstFloor()
 
 boolean L5_getEncryptionKey()
 {
+	if (in_koe()) return false;
+
 	if(item_amount($item[11-inch knob sausage]) == 1)
 	{
 		visit_url("guild.php?place=challenge");
@@ -12714,7 +12740,7 @@ boolean L9_oilPeak()
 
 boolean LX_loggingHatchet()
 {
-	if (!canadia_available())
+	if (!canadia_available() || in_koe())
 	{
 		return false;
 	}
@@ -13368,10 +13394,16 @@ boolean L11_mcmuffinDiary()
 
 	print("Getting the McMuffin Diary", "blue");
 	doVacation();
-	use(item_amount($item[Your Father\'s Macguffin Diary]), $item[your father\'s macguffin diary]);
-	use(item_amount($item[Copy of a Jerk Adventurer\'s Father\'s Diary]), $item[Copy of a Jerk Adventurer\'s Father\'s Diary]);
-	set_property("sl_mcmuffin", "start");
-	return true;
+	foreach diary in $items[Your Father\'s Macguffin Diary, Copy of a Jerk Adventurer\'s Father\'s Diary]
+	{
+		if(item_amount(diary) > 0)
+		{
+			use(item_amount(diary), diary);
+			set_property("sl_mcmuffin", "start");
+			return true;
+		}
+	}
+	return false;
 }
 
 boolean L11_forgedDocuments()
